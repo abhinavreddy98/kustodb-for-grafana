@@ -1,0 +1,25 @@
+<query-editor-row query-ctrl="ctrl" can-collapse="false">
+
+        <div id = "result"></div>
+        <div class="gf-form-inline">
+
+                <div class="gf-form gf-form--grow">
+                        <input name="csl" type="text" maxlength="512" id="csl" class="searchField"/>
+                </div>
+
+        </div>
+
+
+
+  <div class="gf-form-inline">
+
+    <div class="gf-form">
+
+                <label class="gf-form-label query-keyword">Format as</label>
+                <div class="gf-form max-width-8">
+                        <select class="gf-form-input" ng-model="ctrl.target.format" ng-options="f as f for f in ['table', 'timeserie']" ng-change="ctrl.refresh()"></select>
+                </div>
+        </div>
+
+  </div>
+</query-editor-row>
