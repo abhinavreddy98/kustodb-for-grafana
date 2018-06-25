@@ -1,0 +1,36 @@
+<h3 class="page-heading">Kusto Connection</h3>
+<div class="gf-form-group">
+        <div class="gf-form max-width-30">
+                <span class="gf-form-label width-7">Host</span>
+                <input type="text" class="gf-form-input" ng-model='ctrl.current.url' placeholder="https://<Your Kusto Resource>/v1/rest/" bs-typeahead="{{['https://dpsemt.kusto.windows.net/v1/rest/']}}" required></input>
+        </div>
+
+        <div class="gf-form max-width-30">
+                <span class="gf-form-label width-7">Database</span>
+                <input type="text" class="gf-form-input" ng-model='ctrl.current.jsonData.database' placeholder="AdBrokerINT" required></input>
+        </div>
+
+
+        <div class="gf-form max-width-40">
+                <span class="gf-form-label width-7">Azure Active Directory ID</span>
+                <input type="text" class="gf-form-input" ng-model='ctrl.current.jsonData.AADId' placeholder="Directory ID of AAD which has access to Kusto" required></input>
+    </div>
+    <div class="gf-form max-width-40">
+                <span class="gf-form-label width-7">Subscription ID</span>
+                <input type="text" class="gf-form-input" ng-model='ctrl.current.jsonData.subscriptionId' placeholder="Subscription Id under which has access to Kusto" required></input>
+    </div>
+    <div class="gf-form max-width-40">
+                <span class="gf-form-label width-7">Client ID</span>
+                <input type="text" class="gf-form-input" ng-model='ctrl.current.jsonData.clientId' placeholder="App ID of Client that has access to Kusto" required></input>
+        </div>
+        <div class="gf-form-inline" ng-if="!ctrl.current.secureJsonFields.clientSecret">
+    <div class="gf-form">
+      <span class="gf-form-label width-9">Client Secret</span>
+      <input class="gf-form-input width-30" type="text" ng-model='ctrl.current.secureJsonData.clientSecret' placeholder=""></input>
+    </div>
+  </div>
+  <div class="gf-form" ng-if="ctrl.current.secureJsonFields.clientSecret">
+    <span class="gf-form-label width-9">Client Secret</span>
+    <input type="text" class="gf-form-input max-width-12" disabled="disabled" value="configured">
+    <a class="btn btn-secondary gf-form-btn" href="#" ng-click="ctrl.current.secureJsonFields.clientSecret = false">reset</a>
+  </div>
