@@ -8,3 +8,4 @@ npm install -g grunt-cli
 To compile,
 sudo npm run build
 sudo service grafana-server restart
+
