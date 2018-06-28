@@ -1,13 +1,10 @@
 <query-editor-row query-ctrl="ctrl" can-collapse="false">
-
-        <div id = "result"></div>
-        <div class="gf-form-inline">
-
-                <div class="gf-form gf-form--grow">
-                        <input name="csl" type="text" maxlength="512" id="csl" class="searchField"/>
+  <div class="gf-form-inline">
+                <div class="gf-form-input">
+                        <code-editor class="gf-form-input" content="ctrl.target.csl" datasource="ctrl.datasource" on-change="ctrl.panelCtrl.refresh()">
+                        </code-editor>
                 </div>
-
-        </div>
+  </div>
 
 
 
@@ -17,9 +14,42 @@
 
                 <label class="gf-form-label query-keyword">Format as</label>
                 <div class="gf-form max-width-8">
-                        <select class="gf-form-input" ng-model="ctrl.target.format" ng-options="f as f for f in ['table', 'timeserie']" ng-change="ctrl.refresh()"></select>
+                        <select class="gf-form-input" ng-model="ctrl.target.format" ng-options="f.value as f.text for f in ctrl.formats" ng-change="ctrl.refresh()"></select>
                 </div>
         </div>
 
   </div>
+  <div class="gf-form" id="result">
+      <label class="gf-form-label query-keyword">
+        Generated Kusto
+      </label>
+  </div>
+        <div class="gf-form">
+                <label class="gf-form-label query-keyword" ng-click="ctrl.showHelp = !ctrl.showHelp">
+                Show Help
+                <i class="fa fa-caret-down" ng-show="ctrl.showHelp"></i>
+                <i class="fa fa-caret-right" ng-hide="ctrl.showHelp"></i>
+              </label>
+        </div>
+
+        <div class="gf-form"  ng-show="ctrl.showHelp">
+                <pre class="gf-form-pre alert alert-info">
+                        Time series:
+                        - There must be exactly one column of type DateTime and other columns must be numbers.
+                        - Macro below can be used to query exactly between the dates selected in the options at the top right corner.
+                        - There MUST be an 'order by Time_Column desc' clause otherwise your data will be shown incorrectly
+                        Table:
+                        - return any set of columns
+
+                        Macros:
+                        - $__timeFilter(timestamp column) -&gt; column AS time
+
+                        Example:
+                        - BusinessJournals
+                        - | where $__timeFilter(EventDate)
+                        - | summarize dcount(AdCorrelationId) by bin(EventDate, 1h)
+                        - | order by EventDate desc
+                </pre>
+        </div>
+
 </query-editor-row>
