@@ -1,9 +1,10 @@
 import {QueryCtrl} from 'app/plugins/sdk';
 
+const defaultQuery = `<Table Name>
+| $__timeFilter(<Time Column>)
+| order by <Time Column> desc`;
 
-export class GenericDatasourceQueryCtrl extends QueryCtrl {
-
-
+export class KustoQueryCtrl extends QueryCtrl {
 
   constructor($scope, $injector)  {
 
@@ -15,7 +16,15 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
 
     this.target.target = this.target.target || 'select metric';
 
-    this.target.type = this.target.type || 'timeserie';
+    this.target.format = this.target.format || 'timeserie';
+
+    this.formats = [{ text: 'Time series', value: 'time_series' }, { text: 'Table', value: 'table' }];
+
+//    if(this.target.csl == ''){
+//      this.target.csl = defaultQuery;
+//    }
+
+    this.showhelp = false;
 
   }
 
@@ -47,4 +56,4 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
 
 
 
-GenericDatasourceQueryCtrl.templateUrl = 'partials/query.editor.html';
+KustoQueryCtrl.templateUrl = 'partials/query.editor.html';
