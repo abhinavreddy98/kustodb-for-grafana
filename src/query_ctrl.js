@@ -20,9 +20,7 @@ export class KustoQueryCtrl extends QueryCtrl {
 
     this.formats = [{ text: 'Time series', value: 'time_series' }, { text: 'Table', value: 'table' }];
 
-//    if(this.target.csl == ''){
-//      this.target.csl = defaultQuery;
-//    }
+    this.target.csl = this.target.csl || defaultQuery;
 
     this.showhelp = false;
 
