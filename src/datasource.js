@@ -18,7 +18,6 @@ export class KustoDatasource {
     };
 
     query(options) {
-        console.log(options);
         const csl = this.queryMacros(options);
         const resultDiv = document.getElementById("result");
         if (resultDiv) {
@@ -34,6 +33,7 @@ export class KustoDatasource {
               format: item.format,
             };
           });
+        console.log(queries);
         if (queries.length <= 0) {
           return this.$q.when({data: []});
         }
@@ -63,20 +63,70 @@ export class KustoDatasource {
         }
 
         if(res.config.data.queries[0].format === "time_series"){
-          for(j=0; j<res.data.Tables[0].Rows.length; j++){
-            datapoints.push([
-              res.data.Tables[0].Rows[j][1] , +new Date(res.data.Tables[0].Rows[j][0])
-            ]);
+          var timepos = 0;
+          for(j=0; j<res.data.Tables[0].Columns.length; j++){
+            if(res.data.Tables[0].Columns[j].ColumnType == "datetime"){
+              timepos = j;
+              break;
+            }
           }
 
-          data.push({
-            target: res.data.Tables[0].Columns[1].ColumnName,
-            datapoints,
-            refid: res.config.data.queries[0].refId,
-            intervalMs: '30000',
-          });
+          var stringpos = -1;
+          for(j=0; j<res.data.Tables[0].Columns.length; j++){
+            if(res.data.Tables[0].Columns[j].ColumnType == "string"){
+              stringpos = j;
+              break;
+            }
+          }
 
-          return {data: data};
+          if(stringpos == -1){
+            for(j=0; j<res.data.Tables[0].Columns.length; j++){
+              if(j != timepos){
+                for(i=0; i<res.data.Tables[0].Rows.length; i++){
+                  datapoints.push([
+                    res.data.Tables[0].Rows[i][j] , +new Date(res.data.Tables[0].Rows[i][timepos])
+                  ]);
+                }
+                data.push({
+                  target: res.data.Tables[0].Columns[j].ColumnName,
+                  datapoints: datapoints,
+                  refid: res.config.data.queries[0].refId,
+                });
+              }
+            }
+            console.log(data);
+            return {data: data};
+          }
+
+          else{
+            var count = 0, series = {};
+            var Rows = res.data.Tables[0].Rows;
+            for(var row in Rows){
+              if(!series[Rows[row][stringpos]]){
+                series[Rows[row][stringpos]] = [];
+              }
+              series[Rows[row][stringpos]].push([
+                Rows[row][stringpos + 1], +new Date(Rows[row][timepos])
+              ]);
+            }
+            var datapoints = [];
+            for(var target in series){
+              for(var i = 0; i<series[target].length; i++){
+                datapoints[series[target].length - 1 - i] = series[target][i];
+              }
+              for(var i = 0; i<series[target].length; i++){
+                series[target][i] = datapoints[i];
+              }
+            }
+            for(var target in series){
+              data.push({
+                target: target,
+                datapoints: series[target],
+              });
+            }
+            console.log(data);
+            return {data: data};
+          }
         }
 
         if(res.config.data.queries[0].format === "table"){
@@ -121,9 +171,8 @@ export class KustoDatasource {
         var first = csl.slice(0, pos);
         var filter = csl.slice(pos + 14, pos + 14 + filterlength);
         var last = csl.slice(pos + 14 + filterlength, csl.length)
-        var from = new Date(options.range.from).toISOString();
+        var from = new Date(options.range.from+100000).toISOString();
         var to = new Date(options.range.to).toISOString();
-        console.log(from , to);
         var middle = filter + " > todatetime(\"" + from + "\") and " + filter + " < todatetime(\"" + to + "\"";
         return (first + middle + last);
     }
