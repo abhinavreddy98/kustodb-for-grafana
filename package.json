@@ -5,7 +5,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "./node_modules/grunt-cli/bin/grunt && cpx adal.js dist/",
+    "build": "./node_modules/grunt-cli/bin/grunt",
     "test": "./node_modules/grunt-cli/bin/grunt mochaTest"
   },
   "repository": {
