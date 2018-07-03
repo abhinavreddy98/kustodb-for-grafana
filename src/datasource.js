@@ -23,18 +23,7 @@ export class KustoDatasource {
         if (resultDiv) {
             resultDiv.innerHTML = csl;
         }
-        var queries = _.filter(options.targets, item => {
-            return item.hide !== true;
-          }).map(item => {
-            return {
-              refId: item.refId,
-              intervalMs: options.intervalMs,
-              maxDataPoints: options.maxDataPoints,
-              format: item.format,
-            };
-          });
-        console.log(queries);
-        if (queries.length <= 0) {
+        if (options.targets[0].length <= 0) {
           return this.$q.when({data: []});
         }
         const url = `/kusto/query`
@@ -43,18 +32,14 @@ export class KustoDatasource {
             method: 'POST',
             headers: this.headers,
             data: {
-                from: options.range.from,
-                to: options.range.to,
-                queries: queries,
+                options,
                 db: this.database,
                 csl: csl,
-                timezone: "browser"
             }
         }).then(this.responseParser);
     }
 
     responseParser(res){
-        console.log(res);
         var data  = [], datapoints = [], titles = [];
         var i = 0;
         var j = 0;
@@ -62,20 +47,17 @@ export class KustoDatasource {
           return { data: data };
         }
 
-        if(res.config.data.queries[0].format === "time_series"){
-          var timepos = 0;
+        if(res.config.data.options.targets[0].format === "time_series"){
+          var timepos = 0, stringpos = -1, datapos = 0;
           for(j=0; j<res.data.Tables[0].Columns.length; j++){
             if(res.data.Tables[0].Columns[j].ColumnType == "datetime"){
               timepos = j;
-              break;
             }
-          }
-
-          var stringpos = -1;
-          for(j=0; j<res.data.Tables[0].Columns.length; j++){
-            if(res.data.Tables[0].Columns[j].ColumnType == "string"){
+            else if(res.data.Tables[0].Columns[j].ColumnType == "string"){
               stringpos = j;
-              break;
+            }
+            else{
+              datapos = j;
             }
           }
 
@@ -94,7 +76,6 @@ export class KustoDatasource {
                 });
               }
             }
-            console.log(data);
             return {data: data};
           }
 
@@ -106,17 +87,8 @@ export class KustoDatasource {
                 series[Rows[row][stringpos]] = [];
               }
               series[Rows[row][stringpos]].push([
-                Rows[row][stringpos + 1], +new Date(Rows[row][timepos])
+                Rows[row][datapos], +new Date(Rows[row][timepos])
               ]);
-            }
-            var datapoints = [];
-            for(var target in series){
-              for(var i = 0; i<series[target].length; i++){
-                datapoints[series[target].length - 1 - i] = series[target][i];
-              }
-              for(var i = 0; i<series[target].length; i++){
-                series[target][i] = datapoints[i];
-              }
             }
             for(var target in series){
               data.push({
@@ -124,12 +96,11 @@ export class KustoDatasource {
                 datapoints: series[target],
               });
             }
-            console.log(data);
             return {data: data};
           }
         }
 
-        if(res.config.data.queries[0].format === "table"){
+        if(res.config.data.options.targets[0].format === "table"){
           for(j = 0; j < res.data.Tables[0].Columns.length; j++){
             titles.push({
                 text: res.data.Tables[0].Columns[j].ColumnName,
@@ -152,10 +123,7 @@ export class KustoDatasource {
     }
 
     queryMacros(options){
-        console.log(options);
-        //var csl = document.getElementById("csl").value;
         var csl = options.targets[0].csl;
-        console.log(csl);
         var pos = csl.indexOf("$__timeFilter");
         if(pos == -1){
           return csl;
@@ -171,7 +139,7 @@ export class KustoDatasource {
         var first = csl.slice(0, pos);
         var filter = csl.slice(pos + 14, pos + 14 + filterlength);
         var last = csl.slice(pos + 14 + filterlength, csl.length)
-        var from = new Date(options.range.from+100000).toISOString();
+        var from = new Date(options.range.from).toISOString();
         var to = new Date(options.range.to).toISOString();
         var middle = filter + " > todatetime(\"" + from + "\") and " + filter + " < todatetime(\"" + to + "\"";
         return (first + middle + last);
