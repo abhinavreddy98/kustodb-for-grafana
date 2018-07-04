@@ -14,9 +14,9 @@
 
       "author": {
 
-        "name": "Grafana Labs",
+        "name": "Abhinav Reddy",
 
-        "url": "https://grafana.com"
+        "url": "https://github.com/abhinavreddy98/kustodb-for-grafana/"
 
       },
 
@@ -24,7 +24,7 @@
 
       "version": "0.0.1",
 
-      "updated": "2018-06-22"
+      "updated": "2018-07-04"
 
     },
 
@@ -36,7 +36,7 @@
 
         "method": "GET",
 
-        "url": "https://dpsemt.kusto.windows.net/v1/rest",
+        "url": "https://dpsemt.kusto.windows.net/v1/rest", //add your clusters rest API here
 
         "tokenAuth": {
 
@@ -50,7 +50,7 @@
 
             "client_secret": "{{.SecureJsonData.clientSecret}}",
 
-            "resource": "https://dpsemt.kusto.windows.net/"
+            "resource": "https://dpsemt.kusto.windows.net/" //Add your clusters url here
 
           }
 
