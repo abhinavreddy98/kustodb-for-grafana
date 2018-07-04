@@ -1,5 +1,5 @@
 {
-  "name": "customds",
+  "name": "kusto-datasource",
   "private": true,
   "version": "1.0.0",
   "description": "",
