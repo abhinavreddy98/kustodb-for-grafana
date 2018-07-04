@@ -10,12 +10,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/grafana/simple-json-datasource.git"
+    "url": "https://github.com/abhinavreddy98/kustodb-for-grafana.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/grafana/simple-json-datasource/issues"
+    "url": "https://github.com/abhinavreddy98/kustodb-for-grafana/issues"
   },
   "engines": {
     "node": "6.10.0"
@@ -48,5 +48,5 @@
     "lodash": "^4.17.10",
     "mocha": "^3.2.0"
   },
-  "homepage": "https://github.com/grafana/simple-json-datasource#readme"
+  "homepage": "https://github.com/abhinavreddy98/kustodb-for-grafana#readme"
 }
