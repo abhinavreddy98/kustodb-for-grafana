@@ -1,4 +1,4 @@
-# kustodb-for-grafana
+Kusto datasource plugin for grafana
 
 To install dependencies:
 
