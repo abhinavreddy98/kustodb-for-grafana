@@ -129,9 +129,16 @@ export class KustoDatasource {
           return csl;
         }
         var filterlength = 0;
-        for(pos = pos + 14; csl[pos] != ')' && pos < csl.length; pos++){
+        var stack = 1;
+        for(pos = pos + 15; stack != 0 && pos < csl.length; pos++){
           if(pos == csl.length - 1 && csl[pos] != ')'){
             return csl;
+          }
+          if(csl[pos] == '('){
+            stack++;
+          }
+          else if(csl[pos] == ')'){
+            stack--;
           }
           filterlength++;
         }
