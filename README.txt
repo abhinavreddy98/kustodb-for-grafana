@@ -1,5 +1,8 @@
 Kusto datasource plugin for grafana
 
+This can be used by directly downloading it to /var/lib/grafana/plugins/
+In case you make any changes or want to recompile you'll need to install the dependencies first.
+
 To install dependencies:
 
 npm install
