@@ -14,6 +14,11 @@ sudo service grafana-server restart
 
 How to use Kusto datasource
 
+Setting up grafana to perform datasource authentication for kusto
+
+In the plugin.json go to routes{} and edit url there.
+Go to routes {tokeAuth{params{}}} and edit resource there.
+
 Configuration
 
 Register an app on Azure AAD that will act as a client for Kusto. AppId will be Client Id.
