@@ -36,7 +36,7 @@
 
         "method": "GET",
 
-        "url": "https://dpsemt.kusto.windows.net/v1/rest", //add your clusters rest API here
+        "url": "https://dpsemt.kusto.windows.net/v1/rest",
 
         "tokenAuth": {
 
@@ -50,7 +50,7 @@
 
             "client_secret": "{{.SecureJsonData.clientSecret}}",
 
-            "resource": "https://dpsemt.kusto.windows.net/" //Add your clusters url here
+            "resource": "https://dpsemt.kusto.windows.net/"
 
           }
 
