@@ -183,3 +183,4 @@ export class KustoDatasource {
         return this.backendSrv.datasourceRequest(options);
       }
 }
+
