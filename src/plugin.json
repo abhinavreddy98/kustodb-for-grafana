@@ -34,7 +34,7 @@
 
         "path": "kusto",
 
-        "method": "GET",
+        "method": "POST",
 
         "url": "https://dpsemt.kusto.windows.net/v1/rest",
 
