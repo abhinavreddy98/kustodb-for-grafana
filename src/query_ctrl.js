@@ -2,7 +2,7 @@ import {QueryCtrl} from 'app/plugins/sdk';
 
 const defaultQuery = `<Table Name>
 | $__timeFilter(<Time Column>)
-| order by <Time Column> desc`;
+| order by <Time Column> asc`;
 
 export class KustoQueryCtrl extends QueryCtrl {
 
