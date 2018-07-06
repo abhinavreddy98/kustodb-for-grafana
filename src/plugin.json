@@ -4,7 +4,7 @@
 
     "name": "KustoDB",
 
-    "id": "kustodb-for-grafana",
+    "id": "kusto-datasource",
 
 
 
@@ -14,9 +14,9 @@
 
       "author": {
 
-        "name": "Abhinav Reddy",
+        "name": "Grafana Labs",
 
-        "url": "https://github.com/abhinavreddy98/kustodb-for-grafana/"
+        "url": "https://grafana.com"
 
       },
 
@@ -24,7 +24,7 @@
 
       "version": "0.0.1",
 
-      "updated": "2018-07-04"
+      "updated": "2018-06-22"
 
     },
 
@@ -76,6 +76,3 @@
     "annotations": false
 
   }
-
-
-
