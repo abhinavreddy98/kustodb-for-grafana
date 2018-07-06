@@ -42,13 +42,13 @@
                         - return any set of columns
 
                         Macros:
-                        - $__timeFilter(timestamp column) -&gt; column AS time
+                        - $__timeFilter(timestamp column)
 
                         Example:
                         - BusinessJournals
                         - | where $__timeFilter(EventDate)
                         - | summarize dcount(AdCorrelationId) by bin(EventDate, 1h)
-                        - | order by EventDate desc
+                        - | order by EventDate asc
                 </pre>
         </div>
 
